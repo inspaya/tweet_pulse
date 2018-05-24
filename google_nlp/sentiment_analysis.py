@@ -48,7 +48,7 @@ def assign_sentiment(score, magnitude):
     elif score == 0.0 and magnitude > 2.0:
         sentiment = 'Mixed'
     else:
-        sentiment = 'No Sentiment detected'
+        sentiment = 'no detectable '
 
     return sentiment
 

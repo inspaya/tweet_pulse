@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def extract_sentiment():
     if request.method == 'POST':
-        input_text = request.form["one_line_sentence"]
+        input_text = request.form["one_or_more_sentences"]
         annotations = sa.analyze_text(input_text)
         return render_template('results.html', annotations=annotations)
     return render_template('index.html')
