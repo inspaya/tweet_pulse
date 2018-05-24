@@ -10,35 +10,84 @@ from google.cloud import language
 from google.cloud.language import enums
 from google.cloud.language import types
 
+"""
+Interpretation of Sentiment Analysis as per guidance from
+https://cloud.google.com/natural-language/docs/basics#interpreting_sentiment_analysis_values
 
-def print_result(annotations):
-    score = annotations.document_sentiment.score
-    magnitude = annotations.document_sentiment.magnitude
+score		- the overall emotion of a document
+magnitude	- how much emotional content is present within the document,
+            and this value is often proportional to the length of the document
 
+Examples:
+1. A document with a score of 0.0 is clearly 'Neutral' if the magnitude is also low e.g. 0.x
+2. A document with a score of 0.0 is considered 'Mixed' if the magnitude is high e.g. x.y
+(where x is > 0) if the volume of Positive and Negative sentiments cancel each other out.
+3. A document with score less than 0.0 is 'Negative'
+4. A document with score greater than 0.0 is 'Positive'
+
+For the purpose of this exercise, we will not dive into clearly Positive/Negative sentiments.
+However, the suggested values from the docs are worth nothing:
+
+Clearly Positive*	"score": 0.8, "magnitude": 3.0
+Clearly Negative*	"score":-0.6, "magnitude": 4.0
+Neutral			    "score": 0.1, "magnitude": 0.0
+Mixed			    "score": 0.0, "magnitude": 4.0
+"""
+score = 0.0
+magnitude = 0.0
+sentence_sentiment_list = []
+
+
+def assign_sentiment(score, magnitude):
+    if score > 0.5 and magnitude >= 0.5:
+        sentiment = 'Positive'
+    elif score < 0.0:
+        sentiment = 'Negative'
+    elif score == 0.0 and magnitude < 1.0:
+        sentiment = 'Neutral'
+    elif score == 0.0 and magnitude > 2.0:
+        sentiment = 'Mixed'
+    else:
+        sentiment = 'No Sentiment detected'
+
+    return sentiment
+
+
+def generate_sentiments(annotations):
     for index, sentence in enumerate(annotations.sentences):
+        sentence_text = sentence.text.content
         sentence_sentiment = sentence.sentiment.score
-        print('Sentence {} has score of {}'.format(
-            index, sentence_sentiment
+        sentence_magnitude = sentence.sentiment.magnitude
+        print('Sentence {} has score of {} and magnitude of {}'.format(
+            sentence_text, sentence_sentiment, sentence_magnitude
         ))
 
-    print('Overall Sentiment: score of {} with magnitude of {}'.format(
-        score, magnitude
-    ))
-    return 0
+        sentiment = assign_sentiment(sentence_sentiment, sentence_magnitude)
+        sentence_sentiment_list.append((sentence.text.content, sentiment,))
+
+    return sentence_sentiment_list
 
 
-def analyze(input_filename):
-    client = language.LanguageServiceClient()
+def analyze_text(text_string):
+    return analyze(text_string)
 
+
+def analyze_file(input_filename):
     with open(input_filename, 'r') as review_file:
         content = review_file.read()
+
+    return analyze(content)
+
+
+def analyze(content):
+    client = language.LanguageServiceClient()
 
     document = types.Document(
         content=content,
         type=enums.Document.Type.PLAIN_TEXT)
     annotations = client.analyze_sentiment(document=document)
 
-    print_result(annotations)
+    return generate_sentiments(annotations)
 
 
 if __name__ == '__main__':
@@ -52,4 +101,4 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    analyze(args.input_filename)
+    analyze_file(args.input_filename)
