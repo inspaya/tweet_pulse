@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/service/account/credentials/file
+export FLASK_APP=web/app.py 
+export FLASK_ENV=development 
+flask run
