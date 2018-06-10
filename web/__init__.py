@@ -17,8 +17,7 @@ def clean_tweets(user_tweets):
     cleaned_tweets = []
     for tweet in user_tweets:
         if not tweet.full_text.startswith("RT @"):
-            clean_tweet = tweet.full_text
-            clean_tweet = normalize('NFKD', clean_tweet).encode('ascii', 'ignore')
+            clean_tweet = normalize('NFKD', tweet.full_text).encode('ascii', 'ignore')
             cleaned_tweets.append(clean_tweet)
     print(cleaned_tweets)
     return cleaned_tweets

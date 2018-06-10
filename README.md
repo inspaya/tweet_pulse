@@ -29,11 +29,16 @@ $ ./start.sh
 
 Usage
 -----
-* Enter a piece of text in the box shown 
+* Enter a piece of text in the box shown and click the **Get Sentiments** button to see results OR
+* Enter a twitter handle in the box provided and click **Get Tweets and Sentiments** button to see results
+
+Screenshots
+-----------
+*Form*:
 
 ![Enter one or more sentences](https://github.com/inspaya/tweet_pulse/blob/master/tweet_pulse_enter_sentence.png)
 
-* Click the **Get Sentiments** button to see results as shown 
+*Sample Results*:
 
 ![Sentiment analyzed](https://github.com/inspaya/tweet_pulse/blob/master/tweet_pulse_results.png)
  
@@ -41,5 +46,4 @@ Usage
 Todo
 ----
 * Add Unit Tests
-* Hook up to Twitter API
 * Add Mood Prediction based on the sentiments analyzed over a given time frame.
