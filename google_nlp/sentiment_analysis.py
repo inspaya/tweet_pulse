@@ -79,6 +79,15 @@ def analyze_file(input_filename):
     return analyze(content)
 
 
+def analyze_batch(content_list):
+    annotations_list = []
+    for content in content_list:
+        new_annotation = analyze(content)
+        annotations_list.extend(new_annotation)
+
+    return list(set(annotations_list))
+
+
 def analyze(content):
     client = language.LanguageServiceClient()
 

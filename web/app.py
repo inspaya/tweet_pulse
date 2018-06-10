@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 
 sys_path.append(os_path.abspath('..'))
 from google_nlp import sentiment_analysis as sa
+from __init__ import get_user_tweets_from_timeline
 
 app = Flask(__name__)
 
@@ -13,6 +14,19 @@ def extract_sentiment():
     if request.method == 'POST':
         input_text = request.form["one_or_more_sentences"]
         annotations = sa.analyze_text(input_text)
+        return render_template('results.html', annotations=annotations)
+    return render_template('index.html')
+
+
+@app.route("/twitter_user", methods=['POST'])
+def get_twitter_timeline():
+    if request.method == 'POST':
+        twitter_user = request.form["twitter_user_handle"]
+        tweets = get_user_tweets_from_timeline(twitter_user)
+        if type(tweets) == list:
+            annotations = sa.analyze_batch(tweets)
+        else:
+            annotations = sa.analyze(tweets)
         return render_template('results.html', annotations=annotations)
     return render_template('index.html')
 
