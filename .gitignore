@@ -4,5 +4,6 @@
 .idea/*
 *account.*
 venv/*
+misc/*
 test.rb
 start.sh

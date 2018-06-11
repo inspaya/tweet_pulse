@@ -3,4 +3,5 @@
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/service/account/credentials/file
 export FLASK_APP=web/app.py 
 export FLASK_ENV=development 
+export CORENLP_HOME='http://host:port'
 flask run
