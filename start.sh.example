@@ -4,4 +4,6 @@ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/service/account/credentials/
 export FLASK_APP=web/app.py 
 export FLASK_ENV=development 
 export CORENLP_HOME='http://host:port'
+export TWITTER_CONSUMER_KEY="enter your twitter key here"
+export TWITTER_CONSUMER_SECRET="enter your twitter secret here"
 flask run
