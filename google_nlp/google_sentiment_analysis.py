@@ -4,6 +4,7 @@ Adapted from https://cloud.google.com/natural-language/docs/sentiment-tutorial
 Demonstrates how to make a simple call to the Natural Language API.
 """
 
+import csv
 import argparse
 
 from google.cloud import language
@@ -65,6 +66,9 @@ def generate_sentiments(annotations):
         sentiment = assign_sentiment(sentence_sentiment, sentence_magnitude)
         sentence_sentiment_list.append((sentence.text.content, sentiment,))
 
+    with open('buffer.csv', 'w+') as data_buffer: # TODO: replace with filename of subject in data/tweets/ dir
+        csv_writer = csv.writer(data_buffer)
+        csv_writer.writerows(sentence_sentiment_list)
     return sentence_sentiment_list
 
 
