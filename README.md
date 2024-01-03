@@ -1,3 +1,5 @@
+[![Ceasefire Now](https://badge.techforpalestine.org/ceasefire-now)](https://techforpalestine.org/learn-more)
+
 Tweet Pulse
 ===========
 This tool utilizes Google's [Natural Language Processing API](https://cloud.google.com/natural-language/) to analyze the sentiment behind a piece of text.
